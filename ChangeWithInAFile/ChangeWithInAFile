@@ -1,0 +1,13 @@
+#!/bin/bash
+#enter your path dir and then append /* to the last of path for select everyThing file
+FILES="yourPath/*"
+for f in $FILES
+do
+  if [ -f "$f" ]
+  then
+    sed -i 's/some word you want to replace/replace with/g' $f
+    #g is optional,global change or not!
+  else
+    echo "Warning: Some problem with \"$f\""
+  fi
+done
