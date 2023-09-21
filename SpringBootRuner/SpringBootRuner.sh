@@ -2,6 +2,12 @@
 
 raw_app_name=$(find . -type f -name "*.java" -exec grep -l "@SpringBootApplication" {} + | cut -d'/' -f1-2)
 
+if [ -z "$raw_app_name" ];
+then
+  echo -e "\e[31m I can't find any Spring boot app, Please put me in the root folder(parent) application \e[0m"
+  exit
+fi
+
 function Add_number_prefix_application() {
   IFS=' '
   prefix_number=1
@@ -16,6 +22,7 @@ function Add_number_prefix_application() {
 
 function Print_name_application() {
   clear
+  echo -e "\e[35mI found this/these Spring App/Apps:\e[0m"
   counter=0
   for i in $1
   do
@@ -27,6 +34,7 @@ function Print_name_application() {
       echo ""
     fi
   done
+  echo ""
 }
 
 function Check_number_app() {
@@ -34,7 +42,7 @@ function Check_number_app() {
   do
     if ! echo "$name_app_with_number" | grep -q "$app";
     then
-      echo "please enter number of app, that's be :))"
+      echo -e "\e[31m I don't have an app with this number you enter \e[0m"
       exit
     fi
   done
@@ -45,7 +53,8 @@ name_app_with_number=$(Add_number_prefix_application)
 if [ -z "$1" ];
 then
   Print_name_application "$name_app_with_number"
-  read -p "what do you want to run(arrange is significant) :" sequence_run_app_variable
+  echo -e -n "\e[35mwhat do you want to run\e[31m(arrange is significant):\e[0m"
+  read -r sequence_run_app_variable
 else
   sequence_run_app_variable=$1
 fi
@@ -60,12 +69,11 @@ Check_number_app
 
 if [ -z "$2" ];
 then
-  read -p "how many sleep(five second) do you want?" number_sleep
+  echo -e -n "\e[35mhow many sleep\e[31m(five second)\e[35m do you want?"
+  read -r number_sleep
 else
   number_sleep=$2
 fi
-
-echo $number_sleep
 
 sleep_counter=1
 for app in "${sequence_run_app_array[@]}";
@@ -73,9 +81,14 @@ do
   name_app_to_run_digit=$(echo "$name_app_with_number" | cut -d' ' -f$app)
   name_app_to_run_slash=$(echo "$name_app_to_run_digit" | sed 's/^[^-]*-/\.\//')
   gnome-terminal -- bash -c "cd $name_app_to_run_slash; mvn spring-boot:run; exec bash"
-  if [ "$sleep_counter" -le "$number_sleep" ] ;
+
+  if [[ -z "$sleep_counter" && "$sleep_counter" -le "$number_sleep" ]] ;
   then
     sleep 5
     ((++sleep_counter))
   fi
 done
+
+echo ""
+echo -e "\e[35mpraise and greeting to god mohammad and his descendants\e[0m"
+echo ""
