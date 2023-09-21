@@ -1,55 +1,56 @@
 #!/bin/bash
 
-files=$(find . -type f -name "*.java" -exec grep -l "@SpringBootApplication" {} + | cut -d'/' -f1-2)
+raw_app_name=$(find . -type f -name "*.java" -exec grep -l "@SpringBootApplication" {} + | cut -d'/' -f1-2)
 
-first="./config-sever"
-second="./eureka-server"
-third="./gateway-server"
-
-echo $files
-
-for file in $files;
+IFS=' '
+prefix_number=1
+readarray -t app_array <<< "$raw_app_name"
+for element in "${app_array[@]}"
 do
-    if [[ $file == $first ]]
-    then
-        name=$file
-        files="${files//$name/}"
-        gnome-terminal -- bash -c "cd $file; mvn spring-boot:run; exec bash"
-
-    fi
+  name_app_with_number+="$prefix_number-${element#./} "
+  ((++prefix_number))
 done
 
-sleep 5
-
-for file in $files;
+clear
+counter=0
+for i in $name_app_with_number
 do
-    if [[ $file == $second ]]
-    then
-        name=$file
-        files="${files//$name/}"
-        gnome-terminal -- bash -c "cd $file; mvn spring-boot:run; exec bash"
-
-    fi
+  echo -e -n "\033[32m$i\033[0m          "
+  ((++counter))
+  if [ "$counter" -eq 4 ];
+  then
+    ((counter=0))
+    echo ""
+  fi
 done
 
-sleep 5
+read -p "what do you want to run(arrange is significant) :" sequence_run_app_variable
+declare -a sequence_run_app_array=()
 
-for file in $files;
+for (( i=0; i<${#sequence_run_app_variable}; i++));
 do
-    if [[ $file == $third ]]
-    then
-        name=$file
-        files="${files//$name/}"
-        gnome-terminal -- bash -c "cd $file; mvn spring-boot:run; exec bash"
-
-    fi
+  sequence_run_app_array[$((i+1))]=${sequence_run_app_variable:i:1}
 done
 
-sleep 5
-
-for file in $files;
+for app in "${sequence_run_app_array[@]}";
 do
-    gnome-terminal -- bash -c "cd $file; mvn spring-boot:run; exec bash"
+  if ! echo "$name_app_with_number" | grep -q "$app";
+  then
+    echo "please enter number of app, that's be :))"
+    exit
+  fi
 done
 
-echo $files
+read -p "how many sleep(five second) do you want?" number_sleep
+sleep_counter=1
+for app in "${sequence_run_app_array[@]}";
+do
+  name_app_to_run_digit=$(echo "$name_app_with_number" | cut -d' ' -f$app)
+  name_app_to_run_slash=$(echo "$name_app_to_run_digit" | sed 's/^[^-]*-/\.\//')
+  gnome-terminal -- bash -c "cd $name_app_to_run_slash; mvn spring-boot:run; exec bash"
+  if [ "$sleep_counter" -le "$number_sleep" ] ;
+  then
+    sleep 5
+    ((++sleep_counter))
+  fi
+done
