@@ -75,14 +75,14 @@ else
   number_sleep=$2
 fi
 
-sleep_counter=1
+sleep_counter=0
 for app in "${sequence_run_app_array[@]}";
 do
   name_app_to_run_digit=$(echo "$name_app_with_number" | cut -d' ' -f$app)
   name_app_to_run_slash=$(echo "$name_app_to_run_digit" | sed 's/^[^-]*-/\.\//')
   gnome-terminal -- bash -c "cd $name_app_to_run_slash; mvn spring-boot:run; exec bash"
 
-  if [[ -z "$sleep_counter" && "$sleep_counter" -le "$number_sleep" ]] ;
+  if [[ -n "$number_sleep" && "$sleep_counter" -lt "$number_sleep" ]] ;
   then
     sleep 5
     ((++sleep_counter))
