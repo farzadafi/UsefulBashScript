@@ -1,6 +1,13 @@
 #!/bin/bash
 #version 1.1
 
+if ! command -v  gnome-terminal &> /dev/null;
+then
+     echo -e "\e[31mYou dont have gnome-terminal app on your system\e[0m"
+     echo -e "\e[36mYou can install with  -> sudo apt install gnome-terminal\e[0m"
+     exit
+fi
+
 raw_app_name=$(find . -type f -name "*.java" -exec grep -l "@SpringBootApplication" {} + | cut -d'/' -f1-2)
 
 if [ -z "$raw_app_name" ];
