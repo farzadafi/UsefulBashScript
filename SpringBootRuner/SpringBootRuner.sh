@@ -1,4 +1,5 @@
 #!/bin/bash
+#version 1.1
 
 raw_app_name=$(find . -type f -name "*.java" -exec grep -l "@SpringBootApplication" {} + | cut -d'/' -f1-2)
 
@@ -80,7 +81,7 @@ for app in "${sequence_run_app_array[@]}";
 do
   name_app_to_run_digit=$(echo "$name_app_with_number" | cut -d' ' -f$app)
   name_app_to_run_slash=$(echo "$name_app_to_run_digit" | sed 's/^[^-]*-/\.\//')
-  gnome-terminal --title="$name_app_to_run_digit" -- bash -c "cd $name_app_to_run_slash; mvn spring-boot:run; exec bash"
+  gnome-terminal --geometry=40x15 --title="$name_app_to_run_digit" -- bash -c "cd $name_app_to_run_slash; mvn spring-boot:run; exec bash"
 
   if [[ -n "$number_sleep" && "$sleep_counter" -lt "$number_sleep" ]] ;
   then
