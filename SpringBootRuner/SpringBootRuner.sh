@@ -70,7 +70,7 @@ Check_number_app
 
 if [ -z "$2" ];
 then
-  echo -e -n "\e[35mhow many sleep\e[31m(five second)\e[35m do you want?"
+  echo -e -n "\e[35mhow many sleep\e[31m(seven second)\e[35m do you want?"
   read -r number_sleep
 else
   number_sleep=$2
@@ -85,7 +85,7 @@ do
 
   if [[ -n "$number_sleep" && "$sleep_counter" -lt "$number_sleep" ]] ;
   then
-    sleep 5
+    sleep 7
     ((++sleep_counter))
   fi
 done
