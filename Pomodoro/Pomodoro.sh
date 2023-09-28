@@ -21,8 +21,15 @@ function Work-time() {
   gnome-terminal --tab -- bash -c "
     cowsay 'Work' | sed 's/^/\x1b\[31m/;s/$/\x1b\[0m/'
     read -p 'How many Time For Work: ' input
-    echo \$input > /tmp/input.txt
-    read -n 1 "
+    echo \$input > /tmp/input.txt"
+}
+
+function Rest-time() {
+  echo >/tmp/input.txt
+  gnome-terminal --tab -- bash -c "
+    cowsay 'Rest' | sed 's/^/\x1b\[35m/;s/$/\x1b\[0m/'
+    read -p 'How many Time For Rest: ' input
+    echo \$input > /tmp/input.txt"
 }
 
 function Read-input() {
@@ -32,13 +39,39 @@ function Read-input() {
       break
     else
       result=$(cat /tmp/input.txt)
-      sleep 2
+      sleep 1
     fi
   done
   echo $result
 }
 
+function Start_pomodoro() {
+  local duration=$1
+  local remaining=$duration
+  while [[ $remaining -gt 0 ]]; do
+    clear
+    echo -e "\e[34m"
+    echo "╔══════════════════════════════════════════════╗"
+    echo "║                   Pomodoro                   ║"
+    echo "║                     work                     ║"
+    echo "╚══════════════════════════════════════════════╝"
+    echo
+    echo
+    echo "Time remaining: $remaining seconds"
+    echo -e "\e[0m"
+    sleep 1
+    remaining=$((remaining - 1))
+  done
+}
+
 Check-gnome-terminal-install
 Check-cowsay-install
-Work-time
-user-input=$(Read-input)
+
+while true; do
+  Work-time
+  input=$(Read-input)
+  Start_pomodoro $input
+  sleep $input
+  Rest-time
+  input=$(Read-input)
+done
