@@ -75,7 +75,7 @@ function Start_pomodoro() {
 
 function Rest-pomodoro() {
   local duration=$1
-  local remaining=$duration
+  local remaining=$((duration * 60))
   while [[ $remaining -gt 0 ]]; do
     clear
     echo -e "\e[32m"
