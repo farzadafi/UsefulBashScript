@@ -16,6 +16,14 @@ function Check-cowsay-install() {
   fi
 }
 
+function Check-figlet-install() {
+  if ! command -v figlet &>/dev/null; then
+    echo -e "\e[31mYou dont have figlet app on your system\e[0m"
+    echo -e "\e[36mYou can install with  -> sudo apt install figlet\e[0m"
+    exit
+  fi
+}
+
 function Work-time() {
   echo >/tmp/input.txt
   gnome-terminal --tab -- bash -c "
@@ -57,7 +65,8 @@ function Start_pomodoro() {
     echo "╚══════════════════════════════════════════════╝"
     echo
     echo
-    echo "Time remaining: $remaining seconds"
+    echo "Time remaining seconds:"
+    figlet $remaining
     echo -e "\e[0m"
     sleep 1
     remaining=$((remaining - 1))
@@ -76,7 +85,8 @@ function Rest-pomodoro() {
     echo "╚══════════════════════════════════════════════╝"
     echo
     echo
-    echo "Time remaining: $remaining seconds"
+    echo "Time remaining seconds:"
+    figlet $remaining
     echo -e "\e[0m"
     sleep 1
     remaining=$((remaining - 1))
@@ -85,6 +95,7 @@ function Rest-pomodoro() {
 
 Check-gnome-terminal-install
 Check-cowsay-install
+Check-figlet-install
 
 while true; do
   Work-time
