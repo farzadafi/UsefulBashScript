@@ -8,3 +8,11 @@ function Check-gnome-terminal-install() {
   fi
 }
 
+function Check-cowsay-install() {
+  if ! command -v cowsay &>/dev/null; then
+    echo -e "\e[31mYou dont have cowsay app on your system\e[0m"
+    echo -e "\e[36mYou can install with  -> sudo apt install cowsay\e[0m"
+    exit
+  fi
+}
+
