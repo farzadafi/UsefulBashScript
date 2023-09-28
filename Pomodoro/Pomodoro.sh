@@ -53,7 +53,26 @@ function Start_pomodoro() {
     echo -e "\e[34m"
     echo "╔══════════════════════════════════════════════╗"
     echo "║                   Pomodoro                   ║"
-    echo "║                     work                     ║"
+    echo "║                     Work                     ║"
+    echo "╚══════════════════════════════════════════════╝"
+    echo
+    echo
+    echo "Time remaining: $remaining seconds"
+    echo -e "\e[0m"
+    sleep 1
+    remaining=$((remaining - 1))
+  done
+}
+
+function Rest-pomodoro() {
+  local duration=$1
+  local remaining=$duration
+  while [[ $remaining -gt 0 ]]; do
+    clear
+    echo -e "\e[32m"
+    echo "╔══════════════════════════════════════════════╗"
+    echo "║                   Pomodoro                   ║"
+    echo "║                     Rest                     ║"
     echo "╚══════════════════════════════════════════════╝"
     echo
     echo
@@ -74,4 +93,5 @@ while true; do
   sleep $input
   Rest-time
   input=$(Read-input)
+  Rest-pomodoro $input
 done
