@@ -37,3 +37,8 @@ function Read-input() {
   done
   echo $result
 }
+
+Check-gnome-terminal-install
+Check-cowsay-install
+Work-time
+user-input=$(Read-input)
