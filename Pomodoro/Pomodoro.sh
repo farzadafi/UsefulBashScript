@@ -24,3 +24,16 @@ function Work-time() {
     echo \$input > /tmp/input.txt
     read -n 1 "
 }
+
+function Read-input() {
+  result=$(cat /tmp/input.txt)
+  while true; do
+    if [[ $result =~ ^[0-9]+$ ]]; then
+      break
+    else
+      result=$(cat /tmp/input.txt)
+      sleep 2
+    fi
+  done
+  echo $result
+}
