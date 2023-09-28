@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# Function to display a desktop notification
-notify() {
-  if [[ "$(uname)" == "Darwin" ]]; then
-    osascript -e "display notification \"$1\" with title \"$2\""
-  elif [[ "$(uname)" == "Linux" ]]; then
-    notify-send -u cirical "$2" "$1"
+function Check-gnome-terminal-install() {
+  if ! command -v gnome-terminal &>/dev/null; then
+    echo -e "\e[31mYou dont have gnome-terminal app on your system\e[0m"
+    echo -e "\e[36mYou can install with  -> sudo apt install gnome-terminal\e[0m"
+    exit
   fi
 }
+
