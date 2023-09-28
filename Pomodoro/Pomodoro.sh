@@ -16,3 +16,11 @@ function Check-cowsay-install() {
   fi
 }
 
+function Work-time() {
+  echo >/tmp/input.txt
+  gnome-terminal --tab -- bash -c "
+    cowsay 'Work' | sed 's/^/\x1b\[31m/;s/$/\x1b\[0m/'
+    read -p 'How many Time For Work: ' input
+    echo \$input > /tmp/input.txt
+    read -n 1 "
+}
