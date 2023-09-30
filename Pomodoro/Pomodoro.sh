@@ -26,7 +26,7 @@ function Check-figlet-install() {
 
 function Work-time() {
   echo >/tmp/input.txt
-  gnome-terminal --tab -- bash -c "
+  gnome-terminal --window -- bash -c "
     cowsay 'Work' | sed 's/^/\x1b\[31m/;s/$/\x1b\[0m/'
     read -p 'How many Time For Work: ' input
     echo \$input > /tmp/input.txt"
@@ -34,7 +34,7 @@ function Work-time() {
 
 function Rest-time() {
   echo >/tmp/input.txt
-  gnome-terminal --tab -- bash -c "
+  gnome-terminal --window -- bash -c "
     cowsay 'Rest' | sed 's/^/\x1b\[35m/;s/$/\x1b\[0m/'
     read -p 'How many Time For Rest: ' input
     echo \$input > /tmp/input.txt"
@@ -55,7 +55,7 @@ function Read-input() {
 
 function Start_pomodoro() {
   local duration=$1
-  local remaining=$duration
+  local remaining=$((duration * 60))
   while [[ $remaining -gt 0 ]]; do
     clear
     echo -e "\e[34m"
@@ -101,7 +101,6 @@ while true; do
   Work-time
   input=$(Read-input)
   Start_pomodoro $input
-  sleep $input
   Rest-time
   input=$(Read-input)
   Rest-pomodoro $input
