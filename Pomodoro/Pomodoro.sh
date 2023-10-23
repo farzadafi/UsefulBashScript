@@ -27,6 +27,7 @@ function Check-figlet-install() {
 function Work-time() {
   echo >/tmp/input.txt
   gnome-terminal --window -- bash -c "
+    wmctrl -r :ACTIVE: -b toggle,above
     cowsay 'Work' | sed 's/^/\x1b\[31m/;s/$/\x1b\[0m/'
     read -p 'How many Time For Work: ' input
     echo \$input > /tmp/input.txt"
@@ -35,6 +36,7 @@ function Work-time() {
 function Rest-time() {
   echo >/tmp/input.txt
   gnome-terminal --window -- bash -c "
+    wmctrl -r :ACTIVE: -b toggle,above
     cowsay 'Rest' | sed 's/^/\x1b\[35m/;s/$/\x1b\[0m/'
     read -p 'How many Time For Rest: ' input
     echo \$input > /tmp/input.txt"
