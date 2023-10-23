@@ -24,6 +24,14 @@ function Check-figlet-install() {
   fi
 }
 
+function Check-wmctrl-install() {
+  if ! command -v figlet &>/dev/null; then
+    echo -e "\e[31mYou dont have wmctrl app on your system\e[0m"
+    echo -e "\e[36mYou can install with  -> sudo apt install wmctrl\e[0m"
+    exit
+  fi
+}
+
 function Work-time() {
   echo >/tmp/input.txt
   gnome-terminal --window -- bash -c "
@@ -98,6 +106,7 @@ function Rest-pomodoro() {
 Check-gnome-terminal-install
 Check-cowsay-install
 Check-figlet-install
+Check-wmctrl-install
 
 while true; do
   Work-time
