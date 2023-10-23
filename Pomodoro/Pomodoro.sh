@@ -25,7 +25,7 @@ function Check-figlet-install() {
 }
 
 function Check-wmctrl-install() {
-  if ! command -v figlet &>/dev/null; then
+  if ! command -v wmctrl &>/dev/null; then
     echo -e "\e[31mYou dont have wmctrl app on your system\e[0m"
     echo -e "\e[36mYou can install with  -> sudo apt install wmctrl\e[0m"
     exit
