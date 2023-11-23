@@ -1,5 +1,5 @@
 #!/bin/bash
-#version 1.1
+#version 1.2
 
 if ! command -v  gnome-terminal &> /dev/null;
 then
@@ -19,7 +19,8 @@ fi
 function Add_number_prefix_application() {
   IFS=' '
   prefix_number=1
-  readarray -t app_array <<< "$raw_app_name"
+  sorted_name_array=($(printf "%s\n" "${raw_app_name[@]}" | sort | uniq))
+  readarray -t app_array <<< "$sorted_name_array"
   for element in "${app_array[@]}"
   do
     result+="$prefix_number-${element#./} "
