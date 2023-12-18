@@ -13,9 +13,9 @@ This script is designed to run multiple Spring Boot applications in separate gno
 2. Open the terminal and navigate to the root folder.
 3. Run the script using the following command:
 
-```bash
-./spring-boot-app-runner.sh
-```
+    ```bash
+    ./spring-boot-app-runner.sh
+    ```
 
 4. The script will display a list of Spring Boot applications found in the root folder.
 5. Enter the sequence of the applications you want to run. The order is significant.
@@ -27,4 +27,10 @@ This script is designed to run multiple Spring Boot applications in separate gno
 - If gnome-terminal app is not installed on your system, the script will prompt you to install it using the command `sudo apt install gnome-terminal`.
 - If the script cannot find any Spring Boot application in the root folder, it will display an error message and exit.
 - If you enter an invalid sequence of application numbers, the script will display an error message and exit.
-- The script will display a message at the end to praise and greet Prophet Mohammad and his descendants.
+- You can run this with any parameter and then number of services that you run,
+    or you can run it with number of services you want to start and number of sleep you want for example:
+    ```bash
+        ./sprin-boot-app-runer.sh 123 2
+    ```
+  with this command 1, 2 and 3 services are start, first services start and then sleep 5 second,
+    and then start second service and then 5 second sleep and then start third service :)
